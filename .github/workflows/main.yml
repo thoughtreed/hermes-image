@@ -1,0 +1,21 @@
+name: Download Hermes Image
+
+on:
+  workflow_dispatch:
+
+jobs:
+  download:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Pull image
+        run: docker pull nousresearch/hermes-agent:latest
+        
+      - name: Save image
+        run: docker save nousresearch/hermes-agent:latest | gzip > hermes-agent.tar.gz
+        
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: hermes-image
+          path: hermes-agent.tar.gz
+          retention-days: 1
